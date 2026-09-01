@@ -92,4 +92,8 @@ jobs:
         run: curl -fsS http://localhost:8080/ | grep -q '<div id="root">'
       - name: Tear down
         if: always()
+        # Cleanup only — the runner VM is destroyed after the job regardless,
+        # so a teardown failure here has no real consequence and must not
+        # fail a job whose actual checks already passed.
+        continue-on-error: true
         run: docker compose down -v
